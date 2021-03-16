@@ -1,0 +1,23 @@
+@import "../main";
+@import "~antd/dist/antd.css";
+
+.body {
+    text-align: -webkit-center;
+    background-color: $grey1;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    .form-login-tutor {
+        width: 450px;
+        background-color: $white;
+    }
+}
+.title-form-register {
+    height: 10px;
+}
+.form {
+    width: 315px;
+    .custom-gender {
+        width: 315px;
+        text-align-last: start;
+    }
+}

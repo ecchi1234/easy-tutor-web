@@ -1,0 +1,32 @@
+@import "../main";
+.nameweb {
+    width: fit-content;
+    height: 38px;
+    font-size: 32px;
+    display: flex;
+    margin-left: 89px;
+    .nameweb-left {
+        color: $grey2;
+    }
+    .nameweb-right {
+        color: $primary;
+    }
+}
+
+.register-title{
+    width: fit-content;
+    padding-top: 32px;
+    height: 38px;
+    display: flex;
+    font-size: 24px;
+    font-weight: 500;
+    .register-title-left{
+        color: $black;
+    }
+    .register-title-mid{
+        color: $grey2;
+    }
+    .register-title-right{
+        color: $primary;
+    }
+}
