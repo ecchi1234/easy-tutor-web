@@ -1,0 +1,15 @@
+@import "../main";
+@import "~antd/dist/antd.css";
+
+.body-register-normal {
+    text-align: -webkit-center;
+    background-color: $grey1;
+    padding-top: 180px;
+    padding-bottom: 20px;
+    height: 100vh;
+    .form-register-normal{
+        width: 450px;
+        background-color: $white;
+        border-radius: 12px;
+    }
+}

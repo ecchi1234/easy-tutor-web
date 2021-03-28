@@ -13,20 +13,85 @@
     }
 }
 
-.register-title{
-    width: fit-content;
+.register-title {
     padding-top: 32px;
     height: 38px;
     display: flex;
     font-size: 24px;
     font-weight: 500;
-    .register-title-left{
+    width: 360px;
+    margin-left: -20px;
+    .register-title-left {
         color: $black;
     }
-    .register-title-mid{
+    .register-title-mid {
         color: $grey2;
     }
-    .register-title-right{
+    .register-title-right {
         color: $primary;
+    }
+}
+
+.register-title-normal {
+    @extend .register-title;
+    justify-content: center;
+    .register-title-normal-left {
+        color: $black;
+    }
+    .register-title-normal-mid {
+        color: $grey2;
+    }
+    .register-title-normal-right {
+        color: $primary;
+    }
+}
+.register-footer {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 15px;
+    font-size: 14px;
+    font-weight: 500;
+    .register-footer-link {
+        color: $primary;
+    }
+}
+.login-title {
+    font-size: 24px;
+    font-weight: 500;
+    padding-top: 32px;
+}
+.login-body {
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    height: 70px;
+    .login-left {
+        margin-left: 15px;
+    }
+    .login-right {
+        margin-left: 56px;
+        color: $primary;
+    }
+}
+.find-tutor-title {
+    .text-1 {
+        font-weight: 500;
+        font-size: 25px;
+        color: $black;
+        width: 120%;
+    }
+    .text-2 {
+        font-size: 16px;
+        display: flex;
+        width: 180%;
+        .text-2-left {
+            color: #595959;
+        }
+        .text-2-mid {
+            color: $primary;
+        }
+        .text-2-right {
+            color: #595959;
+        }
     }
 }
