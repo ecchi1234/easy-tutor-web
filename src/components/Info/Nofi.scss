@@ -1,0 +1,23 @@
+@import "../main";
+@import "~antd/dist/antd.css";
+
+.row-nofi{
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    .nofi-col-1 {
+        width: 40%;
+        
+    }
+    .nofi-col-3{
+        width: 80%;
+    }
+    .nofi-col-2{
+        word-wrap: break-word;
+        width: auto;
+        padding-right: 2%;
+        text-align: justify;
+    }
+    }

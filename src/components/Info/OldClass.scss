@@ -1,0 +1,15 @@
+@import "../main";
+@import "~antd/dist/antd.css";
+
+.old-class-content{
+    display: flex;
+    .old-class-col{
+    width: 50%;
+    .old-class-row{
+        display: flex;
+    }
+}
+}
+.old-class-card{
+    margin-bottom: 5%;
+}

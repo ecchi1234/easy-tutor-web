@@ -1,0 +1,61 @@
+@import "../main";
+.td-menu-row {
+    height: 5%;
+    padding-left: 17%;
+    display: flex;
+    align-items: center;;
+}
+.td-star {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: $primary;
+    text-align: center;
+}
+.td-menu-text{
+    // padding-top: 5%;
+    padding-left: 5%;
+}
+.td-star-rate{
+    font-size: 75%;
+    color: $white;
+    padding-top: 50%;
+}
+.ant-layout-content-3{
+    background-color: $grey1;
+}
+.td-title{
+    font-size: 20px;
+    color: $primary;
+    font-weight: 500;
+}
+.td-card-content-row-detail{
+    color: $grey2;
+    word-wrap: break-word;
+    text-align: justify;
+    width: 95%;
+
+}
+.td-card-content-row{
+    display: block;
+}
+.td-img {
+  
+  margin-left: auto;
+  margin-right: auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+}
+.td-table-container input{
+    display: none;
+}
+.star{
+    font-size: 200%;
+}
+.td-card-content-detail{
+    padding-bottom: 5%;
+}
+.td-card-content-row{
+    padding-bottom: 3%;
+}
