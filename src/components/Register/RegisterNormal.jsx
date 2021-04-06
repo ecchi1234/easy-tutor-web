@@ -1,20 +1,24 @@
-import React, { Fragment, useCallback, useMemo, useState } from 'react'
+import React, { Fragment, useCallback, useMemo, useState } from "react";
+import { Form, Input, Select } from "antd";
+import "./RegisterNormal.scss";
+import { PageHeader, Button } from "antd";
+import { SmileTwoTone } from "@ant-design/icons";
 import {
-  Form,
-  Input,
-  Select,
-} from 'antd';
-import './RegisterNormal.scss'
-import { PageHeader, Button } from 'antd';
-import { SmileTwoTone } from '@ant-design/icons';
-import { NameWeb, RegisterTitleNormal,RegisterFooter } from '../NameWeb/NameWeb';
+  NameWeb,
+  RegisterTitleNormal,
+  RegisterFooter,
+} from "../NameWeb/NameWeb";
 
 const { TextArea } = Input;
 const { Option } = Select;
-const optionSubject = [{ value: 'Toán' }, { value: 'Tiếng Anh' }, { value: 'Ngữ Văn' }, { value: 'Vật lý' }];
+const optionSubject = [
+  { value: "Toán" },
+  { value: "Tiếng Anh" },
+  { value: "Ngữ Văn" },
+  { value: "Vật lý" },
+];
 
 const RegisterNormal = React.memo(() => {
-
   const tailFormItemLayout = useMemo(() => {
     return {
       wrapperCol: {
@@ -23,27 +27,23 @@ const RegisterNormal = React.memo(() => {
           offset: 0,
         },
         sm: {
-
           offset: 2,
         },
       },
     };
-
   }, []);
 
   // const [value, setValue] = useState('');
 
-  const handleChange = useCallback(
-    (value) => {
-      console.log(`selected ${value}`);
-    },
-    []);
+  const handleChange = useCallback((value) => {
+    console.log(`selected ${value}`);
+  }, []);
 
   const [form] = Form.useForm();
 
   // const [values, setValues] = useState('');
   const onFinish = useCallback((values) => {
-    console.log('Received values of form: ', values);
+    console.log("Received values of form: ", values);
   }, []);
 
   return (
@@ -59,33 +59,30 @@ const RegisterNormal = React.memo(() => {
               Đăng yêu cầu
             </Button>,
           ]}
-        >
-        </PageHeader>
+        ></PageHeader>
       </header>
-      <div className='body-register-normal'>
-
-        <div className='form-register-normal'>
-        < RegisterTitleNormal />
+      <div className="body-register-normal">
+        <div className="form-register-normal">
+          <RegisterTitleNormal />
           <Form
             form={form}
             name="register-normal"
             onFinish={onFinish}
             scrollToFirstError
-            className='form'
+            className="form"
           >
-            
             <Form.Item
-              className='padding'
+              className="padding"
               name="username"
               style={{ paddingTop: "50px" }}
               rules={[
                 {
-                  type: 'string',
-                  message: 'The input is not valid username',
+                  type: "string",
+                  message: "The input is not valid username",
                 },
                 {
                   required: true,
-                  message: 'Please input your username',
+                  message: "Please input your username",
                 },
               ]}
             >
@@ -97,12 +94,12 @@ const RegisterNormal = React.memo(() => {
               name="displayname"
               rules={[
                 {
-                  type: 'string',
-                  message: 'The input is not valid display name',
+                  type: "string",
+                  message: "The input is not valid display name",
                 },
                 {
                   required: true,
-                  message: 'Please input your display name',
+                  message: "Please input your display name",
                 },
               ]}
             >
@@ -113,12 +110,12 @@ const RegisterNormal = React.memo(() => {
               name="phone"
               rules={[
                 {
-                  type: 'string',
-                  message: 'The input is not valid phone number',
+                  type: "string",
+                  message: "The input is not valid phone number",
                 },
                 {
                   required: true,
-                  message: 'Please input your phone number',
+                  message: "Please input your phone number",
                 },
               ]}
             >
@@ -129,12 +126,12 @@ const RegisterNormal = React.memo(() => {
               name="email"
               rules={[
                 {
-                  type: 'email',
-                  message: 'The input is not valid E-mail',
+                  type: "email",
+                  message: "The input is not valid E-mail",
                 },
                 {
                   required: true,
-                  message: 'Please input your E-mail',
+                  message: "Please input your E-mail",
                 },
               ]}
             >
@@ -146,48 +143,64 @@ const RegisterNormal = React.memo(() => {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your password!',
+                  message: "Please input your password!",
                 },
               ]}
               hasFeedback
             >
-              <Input.Password placeholder="Mật khẩu" prefix={<SmileTwoTone />} />
+              <Input.Password
+                placeholder="Mật khẩu"
+                prefix={<SmileTwoTone />}
+              />
             </Form.Item>
 
             <Form.Item
               name="confirm"
-              dependencies={['password']}
+              dependencies={["password"]}
               hasFeedback
               rules={[
                 {
                   required: true,
-                  message: 'Please confirm your password!',
+                  message: "Please confirm your password!",
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
+                    if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                    return Promise.reject(
+                      new Error(
+                        "The two passwords that you entered do not match!"
+                      )
+                    );
                   },
                 }),
               ]}
             >
-              <Input.Password placeholder="Nhập lại mật khẩu" prefix={<SmileTwoTone />} />
+              <Input.Password
+                placeholder="Nhập lại mật khẩu"
+                prefix={<SmileTwoTone />}
+              />
             </Form.Item>
 
-
-            <Form.Item {...tailFormItemLayout} >
-              <Button type="primary" htmlType="submit" style={{width: "100%"}}>
+            <Form.Item {...tailFormItemLayout}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ width: "100%" }}
+              >
                 Đăng ký
               </Button>
             </Form.Item>
-            <RegisterFooter />
+            <div className="register-footer">
+              <div className="register-footer-text">Already have account?</div>
+              <div className="register-footer-link">&nbsp;Login</div>
+            </div>
           </Form>
         </div>
       </div>
     </Fragment>
-  )
+  );
 });
 
-export default RegisterNormal
+export default RegisterNormal;

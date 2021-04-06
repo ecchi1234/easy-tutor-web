@@ -31,18 +31,18 @@ const RegisterTitle = React.memo(() => {
     )
 });
 
-const RegisterFooter = React.memo(() => {
-    return (
-        <div className='register-footer'>
-            <div className='register-footer-text'>
-                Already have account?
-            </div>
-            <div className='register-footer-link'>
-                &nbsp;Login
-            </div>
-        </div>
-    )
-});
+// const RegisterFooter = React.memo(() => {
+//     return (
+//         <div className='register-footer'>
+//             <div className='register-footer-text'>
+//                 Already have account?
+//             </div>
+//             <div className='register-footer-link'>
+//                 &nbsp;Login
+//             </div>
+//         </div>
+//     )
+// });
 
 const RegisterTitleNormal = React.memo(() => {
     return (
@@ -114,5 +114,5 @@ const FindTutorTitle = React.memo(() => {
 }
 
 );
-export { NameWeb, RegisterTitle, RegisterFooter, LoginTitle,LoginBody,LoginFooter,RegisterTitleNormal,FindTutorTitle};
+export { NameWeb, RegisterTitle, LoginTitle,LoginBody,LoginFooter,RegisterTitleNormal,FindTutorTitle};
 

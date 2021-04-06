@@ -1,0 +1,32 @@
+@import "../main";
+.rd-container-title-row1{
+    font-size: 20px;
+    font-weight: 500;
+}
+.rd-container-title-row-2{
+    padding-top: 1%;
+}
+.rd-col{
+    width: 33.33%;
+    padding-left: 2%;
+}
+.rd-row{
+    display: flex;
+}
+.site-layout-background-3{
+    background-color:$grey1 ;
+}
+.rd-card-text-1{
+    text-align: justify;
+    color: $grey2;
+    padding-bottom: 3%;
+}
+.rd-table-container input{
+    display: none;
+    
+}
+.rd-table-container{
+    padding-left: 18%;
+    width: 82%;
+    
+}
