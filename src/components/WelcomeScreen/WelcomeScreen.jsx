@@ -24,16 +24,19 @@ import { NameWeb } from "../NameWeb/NameWeb";
 import logo from "../../assets/read.png";
 import Register from "../Register/Register";
 
+
 const { Header, Content, Footer, Sider } = Layout;
 const { TabPane } = Tabs;
 const { Option } = Select;
 
+
+
 function WelcomeScreen() {
-  
+
   return (
     <div>
       
-      <Layout>
+      <Layout> 
         <header>
           <PageHeader
             className="site-page-header-responsive"
@@ -96,13 +99,15 @@ function WelcomeScreen() {
                         Tham gia với tư cách gia sư
                       </Button>
                     </Link>
-                  
+                  <Link to="/register-normal">
 
                   <Button type="primary">Tham gia với tư cách phụ huynh</Button>
+                  </Link>
+
                 </div>
               </div>
               <div className="ws-col">
-                <img src={logo} />
+                <img src={logo} alt="no-img"/>
               </div>
             </div>
           </Layout>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Menu, Breadcrumb, Button, PageHeader, Image, Tabs, Form, Input, DatePicker, Col, Row, Select, Checkbox, Upload } from 'antd';
+import { Layout, Menu, Breadcrumb, Button, PageHeader, Image, Tabs, Form, Input, DatePicker, Col, Row, Select, Checkbox, Upload, message } from 'antd';
 import './InfoTutor.scss'
 import { NameWeb } from '../NameWeb/NameWeb';
 import TextArea from 'antd/lib/input/TextArea';
@@ -12,11 +12,31 @@ const optionLevel = [{ value: 'Cao Đẳng' }, { value: 'Đại học' }, { valu
 const optionTopic = [{ value: 'Hà Nội' }, { value: 'Thanh Hóa' }, { value: 'Nam Định' }, { value: 'Hưng Yên' }];
 const optionSubject = [{ value: 'Toán' }, { value: 'Tiếng Anh' }, { value: 'Ngữ Văn' }, { value: 'Vật lý' }];
 
+const props = {
+    name: 'file',
+    action: 'http://localhost:9876/v1/easy-tutor/storage/',
+    headers: {
+      token: localStorage.getItem("Token"),
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList);
+        
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+        console.log(localStorage.getItem("Token"));
+      }
+    },
+  };
+
 
 function InfoTutor() {
     const [fields, setFields] = useState([{ value: '' }]);
 
-    function handleChange(i: number, event: any) {
+    function handleChange(i, event) {
         const values = [...fields];
         values[i].value = event.target.value;
         setFields(values);
@@ -28,7 +48,7 @@ function InfoTutor() {
         setFields(values);
     }
 
-    function handleRemove(i: number) {
+    function handleRemove(i) {
         const values = [...fields];
         values.splice(i, 1);
         setFields(values);
@@ -97,7 +117,7 @@ function InfoTutor() {
                                     <Button onClick={() => handleRemove(idx)} style={{ marginRight: '10px' }}>
                                         X
                                     </Button>
-                                    <Upload >
+                                    <Upload {...props}>
                                         <Button icon={<UploadOutlined />}>Upload</Button>
                                     </Upload>
                                 </div>

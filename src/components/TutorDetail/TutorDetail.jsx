@@ -14,9 +14,13 @@ import {
   Row,
   Select,
   Checkbox,
-  
 } from "antd";
-import { BankTwoTone, ProfileTwoTone, SettingTwoTone,StarTwoTone } from "@ant-design/icons";
+import {
+  BankTwoTone,
+  ProfileTwoTone,
+  SettingTwoTone,
+  StarTwoTone,
+} from "@ant-design/icons";
 import "./TutorDetail.scss";
 import { NameWeb } from "../NameWeb/NameWeb";
 
@@ -101,7 +105,7 @@ function TutorDetail() {
                   </div>
                 </Row>
 
-                <Row className="td-menu-row" style={{paddingLeft:'35%'}}>
+                <Row className="td-menu-row" style={{ paddingLeft: "35%" }}>
                   <Button type="primary">Mời dạy</Button>
                 </Row>
               </Menu>
@@ -117,7 +121,13 @@ function TutorDetail() {
                 backgroundColor: "f5f5f5",
               }}
             >
-              <Card title={title1()} style={{marginBottom:'3%',boxShadow: "5px -5px 4px #e5e5e5"}}>
+              <Card
+                title={title1()}
+                style={{
+                  marginBottom: "3%",
+                  boxShadow: "5px -5px 4px #e5e5e5",
+                }}
+              >
                 <div className="td-card-content">
                   <Row className="td-card-content-row">
                     <div className="label-info-general">
@@ -139,8 +149,12 @@ function TutorDetail() {
                       Chủ để gia sư đang dạy
                     </div>
                     <div>
-                      <Button style={{marginRight:'2%'}}>Ôn thi Đại học</Button>
-                      <Button style={{marginRight:'2%'}}>Ôn thi Cấp 3</Button>
+                      <Button style={{ marginRight: "2%" }}>
+                        Ôn thi Đại học
+                      </Button>
+                      <Button style={{ marginRight: "2%" }}>
+                        Ôn thi Cấp 3
+                      </Button>
                     </div>
                   </Row>
                   <Row className="td-card-content-row">
@@ -151,7 +165,13 @@ function TutorDetail() {
                   </Row>
                 </div>
               </Card>
-              <Card title={title2()} style={{marginBottom:'3%',boxShadow: "5px -5px 4px #e5e5e5"}}>
+              <Card
+                title={title2()}
+                style={{
+                  marginBottom: "3%",
+                  boxShadow: "5px -5px 4px #e5e5e5",
+                }}
+              >
                 <div className="td-card-content">
                   <div>
                     <Row justify="center" className="row-1">
@@ -165,64 +185,66 @@ function TutorDetail() {
                         Chủ Nhật
                       </Col>
                     </Row>
-                    <div className='td-table-container'>
-                       <Row justify="center" className="row-2">
-                      {row_1.map((o) => (
-                        <Col span={3}>
-                          <input
-                            type="checkbox"
-                            className={`btn-${o}`}
-                            //   onChange={()=> onChange(o)}
-                            name={`btn-${o}`}
-                            id={`btn-${o}`}
-                          />
-                          <label htmlFor={`btn-${o}`} className={`btn-label`}>
-                            SÁNG
-                          </label>
-                        </Col>
-                      ))}
-                    </Row>
+                    <div className="td-table-container">
+                      <Row justify="center" className="row-2">
+                        {row_1.map((o) => (
+                          <Col span={3}>
+                            <input
+                              type="checkbox"
+                              className={`btn-${o}`}
+                              //   onChange={()=> onChange(o)}
+                              name={`btn-${o}`}
+                              id={`btn-${o}`}
+                            />
+                            <label htmlFor={`btn-${o}`} className={`btn-label`}>
+                              SÁNG
+                            </label>
+                          </Col>
+                        ))}
+                      </Row>
 
-                    <Row justify="center" className="row-2">
-                      {row_2.map((o) => (
-                        <Col span={3}>
-                          <input
-                            type="checkbox"
-                            className={`btn-${o}`}
-                            //   onChange={()=> onChange(o)}
-                            name={`btn-${o}`}
-                            id={`btn-${o}`}
-                          />
-                          <label htmlFor={`btn-${o}`} className={`btn-label`}>
-                            CHIỀU
-                          </label>
-                        </Col>
-                      ))}
-                    </Row>
+                      <Row justify="center" className="row-2">
+                        {row_2.map((o) => (
+                          <Col span={3}>
+                            <input
+                              type="checkbox"
+                              className={`btn-${o}`}
+                              //   onChange={()=> onChange(o)}
+                              name={`btn-${o}`}
+                              id={`btn-${o}`}
+                            />
+                            <label htmlFor={`btn-${o}`} className={`btn-label`}>
+                              CHIỀU
+                            </label>
+                          </Col>
+                        ))}
+                      </Row>
 
-                    <Row justify="center" className="row-2">
-                      {row_3.map((o) => (
-                        <Col span={3}>
-                          <input
-                            type="checkbox"
-                            className={`btn-${o}`}
-                            //   onChange={()=> onChange(o)}
-                            name={`btn-${o}`}
-                            id={`btn-${o}`}
-                          />
-                          <label htmlFor={`btn-${o}`} className={`btn-label`}>
-                            TỐI
-                          </label>
-                        </Col>
-                      ))}
-                    </Row>
+                      <Row justify="center" className="row-2">
+                        {row_3.map((o) => (
+                          <Col span={3}>
+                            <input
+                              type="checkbox"
+                              className={`btn-${o}`}
+                              //   onChange={()=> onChange(o)}
+                              name={`btn-${o}`}
+                              id={`btn-${o}`}
+                            />
+                            <label htmlFor={`btn-${o}`} className={`btn-label`}>
+                              TỐI
+                            </label>
+                          </Col>
+                        ))}
+                      </Row>
                     </div>
-                   
                   </div>
                 </div>
               </Card>
               <Card
-                style={{marginBottom:'3%',boxShadow: "5px -5px 4px #e5e5e5"}}
+                style={{
+                  marginBottom: "3%",
+                  boxShadow: "5px -5px 4px #e5e5e5",
+                }}
                 title={title3()}
                 extra={<Button type="primary">Viết đánh giá</Button>}
               >
@@ -233,41 +255,47 @@ function TutorDetail() {
                         <img
                           className="td-img"
                           src="https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG"
+                          alt="no-img"
                         />
                       </div>
                     </Col>
-                    <Col flex="60%" style={{ textAlign: 'justify' }}>
-                    <div className="label-info-general">
-                      Nguyễn Phương Thảo
+                    <Col flex="60%" style={{ textAlign: "justify" }}>
+                      <div className="label-info-general">
+                        Nguyễn Phương Thảo
                       </div>
-                      <div style={{ color:'#8c8c8c' }}>
-                         Nunc mollis mattis eros. Praesent ex lorem, auctor sit
-                      amet faucibus id, feugiat ut felis. Quisque sit amet
-                      tortor libero. Nam quis felis turpis. Donec sed pharetra
-                      felis, ut dignissim nulla. Fusce ultricies ultricies
-                      lorem. Nulla a vehicula tortor, non iaculis ligula. Morbi
-                      venenatis lobortis lacus, eu accumsan metus pellentesque
-                      a. Fusce eget augue convallis, tincidunt lorem non,
-                      dignissim lectus.
+                      <div style={{ color: "#8c8c8c" }}>
+                        Nunc mollis mattis eros. Praesent ex lorem, auctor sit
+                        amet faucibus id, feugiat ut felis. Quisque sit amet
+                        tortor libero. Nam quis felis turpis. Donec sed pharetra
+                        felis, ut dignissim nulla. Fusce ultricies ultricies
+                        lorem. Nulla a vehicula tortor, non iaculis ligula.
+                        Morbi venenatis lobortis lacus, eu accumsan metus
+                        pellentesque a. Fusce eget augue convallis, tincidunt
+                        lorem non, dignissim lectus.
                       </div>
-                     <div style={{ paddingTop:'1%' }}><i>2 phút trước</i></div>
+                      <div style={{ paddingTop: "1%" }}>
+                        <i>2 phút trước</i>
+                      </div>
                     </Col>
-                    <Col flex='auto' >
-                      <div className='td-star-widget' style={{ display: "flex",justifyContent:'center' }}>
-                        <div className=' star star-1'>
-                        <StarTwoTone />
+                    <Col flex="auto">
+                      <div
+                        className="td-star-widget"
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <div className=" star star-1">
+                          <StarTwoTone />
                         </div>
-                        <div className='star star-2'>
-                        <StarTwoTone />
+                        <div className="star star-2">
+                          <StarTwoTone />
                         </div>
-                        <div className='star star-3'>
-                        <StarTwoTone />
+                        <div className="star star-3">
+                          <StarTwoTone />
                         </div>
-                        <div className='star star-4'>
-                        <StarTwoTone />
+                        <div className="star star-4">
+                          <StarTwoTone />
                         </div>
-                        <div className='star star-5'>
-                        <StarTwoTone />
+                        <div className="star star-5">
+                          <StarTwoTone />
                         </div>
                       </div>
                     </Col>

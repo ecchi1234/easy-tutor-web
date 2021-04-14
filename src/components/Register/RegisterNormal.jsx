@@ -9,6 +9,12 @@ import {
   RegisterFooter,
 } from "../NameWeb/NameWeb";
 
+import {Link} from "react-router-dom";
+
+// using api
+import learnerApi from "../../api/learnerApi";
+import {useHistory} from "react-router-dom"; 
+
 const { TextArea } = Input;
 const { Option } = Select;
 const optionSubject = [
@@ -35,16 +41,39 @@ const RegisterNormal = React.memo(() => {
 
   // const [value, setValue] = useState('');
 
-  const handleChange = useCallback((value) => {
-    console.log(`selected ${value}`);
-  }, []);
+  // const handleChange = useCallback((value) => {
+  //   console.log(`selected ${value}`);
+  // }, []);
 
   const [form] = Form.useForm();
 
   // const [values, setValues] = useState('');
   const onFinish = useCallback((values) => {
-    console.log("Received values of form: ", values);
+    // console.log("Received values of form: ", values);
+
+    const newValues = {
+      display_name: values.display_name,
+      email: values.email,
+      password: values.password,
+      phone_number: values.phone_number,
+      username: values.username,
+    };
+    learnerApi.register(newValues).then((res) => {
+      alert("đăng ký thành công!");
+    }).catch((err) => {
+      alert("đăng ký không thành công!");
+    });
   }, []);
+
+  // const [userInformation, setUserInformation] = React.useState({});
+
+
+  const handleChange = React.useCallback(
+    (e) => {
+      
+    },
+    [],
+  )
 
   return (
     <Fragment>
@@ -91,7 +120,7 @@ const RegisterNormal = React.memo(() => {
 
             {/* Displayname */}
             <Form.Item
-              name="displayname"
+              name="display_name"
               rules={[
                 {
                   type: "string",
@@ -107,7 +136,7 @@ const RegisterNormal = React.memo(() => {
             </Form.Item>
 
             <Form.Item
-              name="phone"
+              name="phone_number"
               rules={[
                 {
                   type: "string",
@@ -194,7 +223,9 @@ const RegisterNormal = React.memo(() => {
             </Form.Item>
             <div className="register-footer">
               <div className="register-footer-text">Already have account?</div>
+              <Link to="/login">
               <div className="register-footer-link">&nbsp;Login</div>
+              </Link>
             </div>
           </Form>
         </div>

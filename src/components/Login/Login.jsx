@@ -8,13 +8,15 @@ import './Login.scss'
 import { PageHeader, Button } from 'antd';
 import { SmileTwoTone } from '@ant-design/icons';
 import { NameWeb, LoginTitle, LoginBody, LoginFooter } from '../NameWeb/NameWeb';
+import learnerApi from "../../api/learnerApi";
+import { AuthContext } from "../../App";
 
 const { TextArea } = Input;
 const { Option } = Select;
 const optionSubject = [{ value: 'Toán' }, { value: 'Tiếng Anh' }, { value: 'Ngữ Văn' }, { value: 'Vật lý' }];
 
 const Login = React.memo(() => {
-
+    const {dispatch} = React.useContext(AuthContext);
     const tailFormItemLayout = useMemo(() => {
         return {
             wrapperCol: {
@@ -43,7 +45,11 @@ const Login = React.memo(() => {
 
     // const [values, setValues] = useState('');
     const onFinish = useCallback((values) => {
-        console.log('Received values of form: ', values);
+       learnerApi.login(values)
+       .then((res) => {
+           console.log(res);
+       })
+       .catch((err) => alert("đăng nhập thất bại!"));
     }, []);
 
     return (
@@ -104,6 +110,8 @@ const Login = React.memo(() => {
                         >
                             <Input.Password placeholder="Mật khẩu" prefix={<SmileTwoTone />} />
                         </Form.Item>
+
+                        <Form.Item></Form.Item>
 
                         <LoginBody />
                         <Form.Item {...tailFormItemLayout}>
