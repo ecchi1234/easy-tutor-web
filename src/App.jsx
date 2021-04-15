@@ -26,14 +26,14 @@ const reducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         user: action.payload.user,
-        token: action.payload.token
+        token: action.payload.token,
       };
     case "LOGOUT":
       localStorage.clear();
       return {
         ...state,
         isAuthenticated: false,
-        user: null
+        user: null,
       };
     default:
       return state;
@@ -44,38 +44,43 @@ function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   return (
-    <AuthContext.Provider value={{state, dispatch}}>
+    <AuthContext.Provider value={{ state, dispatch }}>
+      <div>
+        <Router>
+          <div>
+            <Switch>
+              <Route path="/register">
+                <Register />
+              </Route>
 
-    <div>
-      <Router>
-        <div>
-          <Switch>
-            <Route path="/register">
-              < Register/>
-            </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
 
-            <Route path="/login">
-              < Login/>
-            </Route>
+              <Route exact path="/">
+                <WelcomeScreen />
+              </Route>
 
-            <Route exact path="/">
-              <WelcomeScreen />
-            </Route>
+              <Route path="/register-normal">
+                <RegisterNormal />
+              </Route>
 
-            <Route path="/register-normal">
-              <RegisterNormal />
-            </Route>
+              <Route path="/tutor-profile">
+                <Info />
+              </Route>
 
-            <Route path="/tutor-profile">
-              <Info/>
-            </Route>
+              <Route path="/create-post">
+                <CreateRequire />
+              </Route>
 
-          </Switch>
-        </div>
-      </Router>
-      <Info/>
-
-    </div>
+              <Route path="/list-tutor">
+                <FindingTutor />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+        {/* <Info/> */}
+      </div>
     </AuthContext.Provider>
   );
 }

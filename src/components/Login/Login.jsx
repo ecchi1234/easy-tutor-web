@@ -47,10 +47,16 @@ const Login = React.memo(() => {
     const onFinish = useCallback((values) => {
        learnerApi.login(values)
        .then((res) => {
-           console.log(res);
+           dispatch({
+            type: "LOGIN",
+            payload: {
+                user: res.data.username,
+                token: res.data.token
+            }
+           });
        })
        .catch((err) => alert("đăng nhập thất bại!"));
-    }, []);
+    }, [dispatch]);
 
     return (
         <Fragment>

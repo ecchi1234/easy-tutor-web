@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import "../../data/tinh_tp";
+import { getCity } from "../../helper/getCity";
+// import api
+import { requestApi } from "../../api/requestApi";
+
+import subjectEnum from "../../data/subject";
 import {
   Table,
   Radio,
@@ -12,6 +18,7 @@ import {
   Layout,
   PageHeader,
   Form,
+  message,
 } from "antd";
 import { NameWeb } from "../NameWeb/NameWeb";
 import TimeTable from "../Info/TimeTable";
@@ -24,17 +31,12 @@ const { TextArea } = Input;
 const title = () => (
   <div className="create-require-container-title">Mô tả yêu cầu tìm gia sư</div>
 );
-const crSubject = [
-  { value: "Toán" },
-  { value: "Tiếng Anh" },
-  { value: "Ngữ Văn" },
-  { value: "Vật lý" },
-];
-const crAddress = [
-  { value: "Thanh Hóa" },
-  { value: "Hà Nội" },
-  { value: "Hưng Yến" },
-];
+
+const crSubject = subjectEnum.data.map((item) => {
+  return item;
+});
+
+const crAddress = getCity();
 
 const timeTable = [];
 timeTable[0] = [false, false, false, false, false, false, false];
@@ -57,6 +59,101 @@ function CreateRequire() {
     setTime(copyArr);
     console.log(time);
   };
+  const [postInformation, setPostInformation] = React.useState({
+    description: "",
+    exact_location: "",
+    fri_afternoon: false,
+    fri_morning: false,
+    fri_night: true,
+    gender: "",
+    location: 1,
+    method: "online",
+    monday_afternoon: false,
+    monday_morning: false,
+    monday_night: true,
+    number_of_student: 0,
+    phone_number: "",
+    price: 0,
+    sat_afternoon: false,
+    sat_morning: false,
+    sat_night: true,
+    subject: "",
+    sun_afternoon: false,
+    sun_morning: false,
+    sun_night: true,
+    thu_afternoon: false,
+    thu_morning: false,
+    thu_night: true,
+    time: 0,
+    times_per_week: 1,
+    title: "",
+    tue_afternoon: false,
+    tue_morning: false,
+    tue_night: true,
+    wed_afternoon: false,
+    wed_morning: false,
+    wed_night: true,
+  });
+
+  const handleSubmitForm = React.useCallback(() => {
+    const createdAt = parseInt((new Date().getTime() / 1000).toFixed(0));
+    postInformation.time = createdAt;
+
+    requestApi
+      .createPost(postInformation)
+      .then((res) => {
+        console.log("created " + res.data);
+        message.success("Tạo yêu cầu thành công!");
+      })
+      .catch((err) => {
+        console.log("smt err");
+        message.error("Tạo yêu cầu thất bại!");
+      });
+  }, [postInformation]);
+
+  const handleChangeForm = React.useCallback(
+    (e) => {
+      const createdAt = parseInt((new Date().getTime() / 1000).toFixed(0));
+      console.log(createdAt);
+      let newValue = e.target.value;
+      if (e.target.name === "price" || e.target.name === "number_of_student") {
+        newValue = parseInt(e.target.value);
+      }
+      setPostInformation({
+        ...postInformation,
+        [e.target.name]: newValue,
+      });
+
+      console.log(postInformation);
+    },
+    [postInformation]
+  );
+
+  const handleChangeSelectForm = React.useCallback(
+    (value, fieldName, type) => {
+      if (type === "multi") {
+        if (fieldName === "gender") {
+          setPostInformation({
+            ...postInformation,
+            [fieldName]: "all",
+          });
+        } else {
+          setPostInformation({
+            ...postInformation,
+            [fieldName]: value.join(";"),
+          });
+        }
+      } else {
+        setPostInformation({
+          ...postInformation,
+          [fieldName]: value,
+        });
+      }
+      console.log(postInformation);
+    },
+    [postInformation]
+  );
+
   return (
     <div>
       <Layout>
@@ -71,7 +168,7 @@ function CreateRequire() {
                 Đăng yêu cầu
               </Button>,
             ]}
-            style={{boxShadow:'0px 5px 5px #e5e5e5'}}
+            style={{ boxShadow: "0px 5px 5px #e5e5e5" }}
           ></PageHeader>
         </header>
         <Content
@@ -82,24 +179,26 @@ function CreateRequire() {
             className="site-layout-background-2"
             style={{
               marginTop: "73px",
-              height: "100vh",
+              // height: "100vh",
             }}
           >
             <div className="create-require-container">
               <Card title={title()}>
                 <Form>
                   <Form.Item
-                    name="cr-summary"
                     rules={[{ required: true, message: "Hãy điền mô tả!" }]}
                   >
                     <div className="label-info-general">
                       Tóm tắt yêu cầu tìm gia sư (1 câu, tối đa 100 ký tự) *
                     </div>
-                    <Input placeholder="Ví dụ: Tìm gia sư Tiếng Anh lớp 7 tại Cầu Giấy" />
+                    <Input
+                      name="title"
+                      placeholder="Ví dụ: Tìm gia sư Tiếng Anh lớp 7 tại Cầu Giấy"
+                      onChange={handleChangeForm}
+                    />
                   </Form.Item>
 
                   <Form.Item
-                    name="cr-subject"
                     rules={[
                       {
                         required: true,
@@ -113,14 +212,19 @@ function CreateRequire() {
                       placeholder="Lựa chọn môn học"
                       style={{ width: "50%" }}
                       mode="multiple"
+                      name="subject"
+                      onChange={(value) =>
+                        handleChangeSelectForm(value, "subject", "multi")
+                      }
                     >
                       {crSubject.map((o, index) => (
                         <Option value={o.value} key={index}>
-                          {o.value}
+                          {o.title}
                         </Option>
                       ))}
                     </Select>
                   </Form.Item>
+
                   <Divider style={{ paddingBottom: "3%" }}></Divider>
                   <Row>
                     <Col flex="50%">
@@ -128,20 +232,35 @@ function CreateRequire() {
                         <div className="label-info-general">
                           Học phí dự kiến (VND/buổi) *
                         </div>
-                        <Input placeholder="Ví dụ: 250000" />
+                        <Input
+                          name="price"
+                          placeholder="Ví dụ: 250000"
+                          onChange={handleChangeForm}
+                        />
                       </div>
                       <div style={{ paddingTop: "5%" }}>
                         <div className="label-info-general">
                           Điện thoại liên hệ *
                         </div>
-                        <Input placeholder="Ví dụ: 012345678" />
+                        <Input
+                          name="phone_number"
+                          placeholder="Ví dụ: 012345678"
+                          onChange={handleChangeForm}
+                        />
                       </div>
                       <div style={{ paddingTop: "5%" }}>
                         <div className="label-info-general">Địa điểm học *</div>
-                        <Select defaultValue="Hà Nội" style={{ width: "100%" }}>
+                        <Select
+                          name="location"
+                          defaultValue="Hà Nội"
+                          style={{ width: "100%" }}
+                          onChange={(value) =>
+                            handleChangeSelectForm(value, "location", "single")
+                          }
+                        >
                           {crAddress.map((o, index) => (
-                            <Option value={o.value} key={index}>
-                              {o.value}
+                            <Option value={parseInt(o.code)} key={index}>
+                              {o.name}
                             </Option>
                           ))}
                         </Select>
@@ -154,12 +273,12 @@ function CreateRequire() {
                         </div>
 
                         <Radio.Group
-                          name="radiogroup"
+                          name="time_per_day"
                           defaultValue={1}
                           className="cr-cb-gr"
                         >
                           <Radio value={1}>1 h</Radio>
-                          <Radio value={2}>1.5 h</Radio>
+                          <Radio value={1.5}>1.5 h</Radio>
                           <Radio value={3}>2 h</Radio>
                           <Radio value={4}>2.5 h</Radio>
                         </Radio.Group>
@@ -170,23 +289,29 @@ function CreateRequire() {
                         </div>
 
                         <Radio.Group
-                          name="radiogroup"
-                          defaultValue="cr-on"
+                          name="method"
+                          defaultValue="online"
                           className="cr-cb-gr"
+                          onChange={handleChangeForm}
                         >
-                          <Radio value="cr-onl">Online</Radio>
-                          <Radio value="cr-off">Offline</Radio>
+                          <Radio value="online">Online</Radio>
+                          <Radio value="offline">Offline</Radio>
                         </Radio.Group>
                       </div>
                       <div style={{ paddingTop: "6.5%", paddingBottom: "6%" }}>
                         <div className="label-info-general">
                           Điạ chỉ cụ thể *
                         </div>
-                        <Input placeholder="Ví dụ: 144 Xuân Thủy Cầu Giấy Hà Nội" />
+                        <Input
+                          name="exact_location"
+                          placeholder="Ví dụ: 144 Xuân Thủy Cầu Giấy Hà Nội"
+                          onChange={handleChangeForm}
+                        />
                       </div>
                     </Col>
                   </Row>
                 </Form>
+
                 <Divider style={{ paddingBottom: "3%" }}></Divider>
                 <Row>
                   <div className="cr-text-1">Lịch học theo yêu cầu</div>
@@ -211,8 +336,12 @@ function CreateRequire() {
                             onChange={() => onChange(o)}
                             name={`cr-btn-${o}`}
                             id={`cr-btn-${o}`}
+                            style={{ display: "none" }}
                           />
-                          <label htmlFor={`cr-btn-${o}`} className={`cr-btn-label`}>
+                          <label
+                            htmlFor={`cr-btn-${o}`}
+                            className={`cr-btn-label`}
+                          >
                             SÁNG
                           </label>
                         </Col>
@@ -228,8 +357,12 @@ function CreateRequire() {
                             onChange={() => onChange(o)}
                             name={`cr-btn-${o}`}
                             id={`cr-btn-${o}`}
+                            style={{ display: "none" }}
                           />
-                          <label htmlFor={`cr-btn-${o}`} className={`cr-btn-label`}>
+                          <label
+                            htmlFor={`cr-btn-${o}`}
+                            className={`cr-btn-label`}
+                          >
                             CHIỀU
                           </label>
                         </Col>
@@ -245,8 +378,12 @@ function CreateRequire() {
                             onChange={() => onChange(o)}
                             name={`cr-btn-${o}`}
                             id={`cr-btn-${o}`}
+                            style={{ display: "none" }}
                           />
-                          <label htmlFor={`cr-btn-${o}`} className={`cr-btn-label`}>
+                          <label
+                            htmlFor={`cr-btn-${o}`}
+                            className={`cr-btn-label`}
+                          >
                             TỐI
                           </label>
                         </Col>
@@ -261,8 +398,10 @@ function CreateRequire() {
                     Mô tả nội dung muốn học
                   </div>
                   <TextArea
+                    name="description"
                     rows={4}
                     placeholder="Ví dụ: Cần chú trọng dạy phần phát âm và viết"
+                    onChange={handleChangeForm}
                   />
                 </Row>
                 <Divider
@@ -276,34 +415,51 @@ function CreateRequire() {
                     </div>
 
                     <Radio.Group
-                      name="radiogroup"
-                      defaultValue="1b"
+                      name="times_per_week"
+                      defaultValue={1}
                       className="cr-cb-gr"
+                      onChange={handleChangeForm}
                     >
-                      <Radio value="1b">1 buổi</Radio>
-                      <Radio value="2b">2 buổi</Radio>
-                      <Radio value="3b">3 buổi</Radio>
-                      <Radio value="4b">Từ 4 buổi</Radio>
+                      <Radio value={1}>1 buổi</Radio>
+                      <Radio value={2}>2 buổi</Radio>
+                      <Radio value={3}>3 buổi</Radio>
+                      <Radio value={4}>Từ 4 buổi</Radio>
                     </Radio.Group>
-                    <div style={{ paddingTop: "5%",paddingBottom: "5%" }}>
+                    <div style={{ paddingTop: "5%", paddingBottom: "5%" }}>
                       <div className="label-info-general">Giới tính gia sư</div>
-                      <Select defaultValue="cr-male" style={{ width: "100%" }} mode="multiple">
-                        <Option value='cr-male'>
-                          Nam
-                        </Option>
-                        <Option value='cr-female'>
-                          Nữ
-                        </Option>
+                      <Select
+                        style={{ width: "100%" }}
+                        mode="multiple"
+                        onChange={(value) =>
+                          handleChangeSelectForm(value, "gender", "multi")
+                        }
+                      >
+                        <Option value="male">Nam</Option>
+                        <Option value="female">Nữ</Option>
                       </Select>
                     </div>
-                    
                   </Col>
                   <Col flex="50%" style={{ paddingLeft: "5%" }}>
-                  <div className="label-info-general">
-                      Số lượng học viên
-                    </div>
-                    <Input placeholder="Ví dụ: 2" />
+                    <div className="label-info-general">Số lượng học viên</div>
+                    <Input
+                      name="number_of_student"
+                      placeholder="Ví dụ: 2"
+                      onChange={handleChangeForm}
+                    />
                   </Col>
+                  <button
+                    style={{
+                      backgroundColor: "#1890ff",
+                      color: "#fff",
+                      padding: "10px",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                    }}
+                    onClick={handleSubmitForm}
+                  >
+                    submit
+                  </button>
                 </Row>
               </Card>
             </div>

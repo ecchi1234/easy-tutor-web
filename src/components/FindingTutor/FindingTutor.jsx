@@ -17,10 +17,14 @@ import {
   Card,
   Pagination,
 } from "antd";
+import teacherApi from "../../api/teacherApi";
 import { ProfileTwoTone, BellTwoTone, HomeTwoTone } from "@ant-design/icons";
 import "./FindingTutor.scss";
 import { FindTutorTitle, NameWeb } from "../NameWeb/NameWeb";
 import { UserOutlined, SearchOutlined } from "@ant-design/icons";
+import subjectEnum from "../../data/subject";
+import { getCity } from "../../helper/getCity";
+import { searchApi } from "../../api/searchApi";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { TabPane } = Tabs;
@@ -31,56 +35,117 @@ const sortBy = [
   { value: "Phổ biến nhất" },
   { value: "Gần nhất" },
 ];
-const filterAddress = [
-  { value: "Thanh Hóa" },
-  { value: "Hà Nội" },
-  { value: "Hưng Yến" },
-];
-const filterSubject = [
-  { value: "Toán" },
-  { value: "Tiếng Anh" },
-  { value: "Ngữ Văn" },
-  { value: "Vật lý" },
-];
+
+const filterAddress = getCity();
+const filterSubject = subjectEnum.data.map((item) => {
+  return item;
+});
+
 const filterLevel = [
-  { value: "Cao Đẳng" },
-  { value: "Đại Học" },
-  { value: "Cao Học" },
+  { value: "under_graduated", title: "Đã tốt nghiệp" },
+  { value: "teacher_under_graduated", title: "Giáo viên đã tốt nghiệp" },
+  { value: "upper_graduated", title: "Sinh viên" },
+  { value: "teacher_upper_graduated", title: "Sinh viên ngành sư phạm" },
 ];
 
 function FindingTutor() {
-  const data = [
-    {
-      id: 1,
-      title: "Nguyễn Phương Thảo",
-      date: "22/12/2021",
-      tags: ["Hà Nội", "Offline", "Tiếng Anh"],
-      describe:
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.",
-      img:
-        "https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG",
+  // const data = [
+  //   {
+  //     id: 1,
+  //     title: "Nguyễn Phương Thảo",
+  //     date: "22/12/2021",
+  //     tags: ["Hà Nội", "Offline", "Tiếng Anh"],
+  //     describe:
+  //       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.",
+  //     img:
+  //       "https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Nguyễn Phương Thảo",
+  //     date: "22/12/2021",
+  //     tags: ["Hà Nội", "Offline", "Tiếng Anh"],
+  //     describe:
+  //       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.",
+  //     img:
+  //       "https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Nguyễn Phương Thảo",
+  //     date: "22/12/2021",
+  //     tags: ["Hà Nội", "Offline", "Tiếng Anh"],
+  //     describe:
+  //       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.",
+  //     img:
+  //       "https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG",
+  //   },
+  // ];
+  const [data, setData] = React.useState([]);
+  const [searchInformation, setSearchInformation] = React.useState({
+    key: "",
+    gender: "",
+    location: 1,
+    graduation: "",
+    subject: "",
+    method: "",
+  });
+  React.useEffect(() => {
+    const params = {
+      page_number: 1,
+      page_length: 10,
+    };
+    teacherApi.getAll(params).then((res) => {
+      setData(res.data);
+    });
+  }, []);
+
+  const handleSearch = React.useCallback(() => {
+    const params = {
+      page_number: 1,
+      page_length: 10,
+      key: searchInformation.key,
+      gender: searchInformation.gender,
+      location: searchInformation.location,
+      graduation: searchInformation.graduation,
+      subject: searchInformation.subject,
+      method: searchInformation.method,
+    };
+
+    searchApi
+      .searchTutor(params)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleChangeSelectForm = React.useCallback(
+    (value, fieldName, type) => {
+      if (type === "multi") {
+        if (fieldName === "gender") {
+          setSearchInformation({
+            ...searchInformation,
+            [fieldName]: "all",
+          });
+        } else {
+          setSearchInformation({
+            ...searchInformation,
+            [fieldName]: value.join(";"),
+          });
+        }
+      } else {
+        setSearchInformation({
+          ...searchInformation,
+          [fieldName]: value,
+        });
+      }
+      console.log(searchInformation);
     },
-    {
-      id: 2,
-      title: "Nguyễn Phương Thảo",
-      date: "22/12/2021",
-      tags: ["Hà Nội", "Offline", "Tiếng Anh"],
-      describe:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.",
-      img:
-        "https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG",
-    },
-    {
-      id: 3,
-      title: "Nguyễn Phương Thảo",
-      date: "22/12/2021",
-      tags: ["Hà Nội", "Offline", "Tiếng Anh"],
-      describe:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.",
-      img:
-        "https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG",
-    },
-  ];
+    [searchInformation]
+  );
   return (
     <div>
       <Layout>
@@ -160,8 +225,8 @@ function FindingTutor() {
                   <div className="select-filter-opt">
                     <Select defaultValue="Hà Nội" style={{ width: "94%" }}>
                       {filterAddress.map((o, index) => (
-                        <Option value={o.value} key={index}>
-                          {o.value}
+                        <Option value={parseInt(o.code)} key={index}>
+                          {o.name}
                         </Option>
                       ))}
                     </Select>
@@ -174,7 +239,7 @@ function FindingTutor() {
                     <Select defaultValue="Toán" style={{ width: "94%" }}>
                       {filterSubject.map((o, index) => (
                         <Option value={o.value} key={index}>
-                          {o.value}
+                          {o.title}
                         </Option>
                       ))}
                     </Select>
@@ -187,7 +252,7 @@ function FindingTutor() {
                     <Select defaultValue="Đại học" style={{ width: "94%" }}>
                       {filterLevel.map((o, index) => (
                         <Option value={o.value} key={index}>
-                          {o.value}
+                          {o.title}
                         </Option>
                       ))}
                     </Select>
@@ -217,6 +282,9 @@ function FindingTutor() {
                     </div>
                   </div>
                 </div>
+                <button onClick={(value) => handleChangeSelectForm()}>
+                  Tìm kiếm
+                </button>
               </div>
             </Sider>
             <Content
@@ -225,25 +293,26 @@ function FindingTutor() {
                 paddingRight: "55px",
                 minHeight: 280,
                 height: "100vh",
-                overflow: "auto",
               }}
             >
               <div className="card-list">
                 {data.map((o, index) => (
                   <Card
-                    title={o.title}
+                    title={o?.name}
                     style={{ width: "100%", marginTop: "3%" }}
                     key={index}
                   >
                     <Row style={{ display: "flex" }}>
                       <Col style={{ width: "70%" }}>
-                        <div>{o.date}</div>
-                        <div className="card-list-tags">
-                          {o.tags.map((t) => (
+                        <div>{o?.date}</div>
+                        {/* <div className="card-list-tags">
+                          {o?.tags.map((t) => (
                             <Tag>{t}</Tag>
                           ))}
+                        </div> */}
+                        <div className="card-list-describe">
+                          {o?.description}
                         </div>
-                        <div className="card-list-describe">{o.describe}</div>
                         <div className="card-list-btn">
                           <Button type="primary">Mời dạy</Button>
                         </div>
@@ -253,7 +322,15 @@ function FindingTutor() {
                           className="img"
                           width="200px"
                           height="auto"
-                          src={o.img}
+                          src={
+                            o.avatar
+                              ? o.avatar
+                              : "https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG"
+                          }
+                          // onerror={
+                          //   (this.src =
+                          //     "https://2img.net/h/images3.wikia.nocookie.net/__cb20090618233926/naruto/images/thumb/6/6f/Orochimaru_As_A_Kid.PNG/653px-Orochimaru_As_A_Kid.PNG")
+                          // }
                         />
                       </Col>
                     </Row>

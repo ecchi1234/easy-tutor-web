@@ -12,11 +12,18 @@ const optionLevel = [{ value: 'Cao Đẳng' }, { value: 'Đại học' }, { valu
 const optionTopic = [{ value: 'Hà Nội' }, { value: 'Thanh Hóa' }, { value: 'Nam Định' }, { value: 'Hưng Yên' }];
 const optionSubject = [{ value: 'Toán' }, { value: 'Tiếng Anh' }, { value: 'Ngữ Văn' }, { value: 'Vật lý' }];
 
+const customRequest = {
+    withCredentials: true,
+   
+  };
+
 const props = {
     name: 'file',
     action: 'http://localhost:9876/v1/easy-tutor/storage/',
+    withCredentials: true,
     headers: {
-      token: localStorage.getItem("Token"),
+      token: JSON.parse(localStorage.getItem("token")),
+
     },
     onChange(info) {
       if (info.file.status !== 'uploading') {
@@ -27,14 +34,22 @@ const props = {
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
-        console.log(localStorage.getItem("Token"));
+        console.log(localStorage.getItem("token"));
+        console.log(info.file, info.fileList);
       }
+
     },
+    
+   
   };
+
+  
+
 
 
 function InfoTutor() {
     const [fields, setFields] = useState([{ value: '' }]);
+
 
     function handleChange(i, event) {
         const values = [...fields];
@@ -106,7 +121,7 @@ function InfoTutor() {
 
                         {fields.map((field, idx) => {
                             return (
-                                <div key={`${field}-${idx}`}>
+                                <div key={`${field}-${idx}`} style={{display: "flex", alignItems: "center"}}>
                                     <Input className="input-archive"
                                         type="text"
                                         placeholder="Điền giải thưởng/Thành tích"
@@ -117,9 +132,7 @@ function InfoTutor() {
                                     <Button onClick={() => handleRemove(idx)} style={{ marginRight: '10px' }}>
                                         X
                                     </Button>
-                                    <Upload {...props}>
-                                        <Button icon={<UploadOutlined />}>Upload</Button>
-                                    </Upload>
+                                    <input type="file"/>
                                 </div>
                             );
                         })}
